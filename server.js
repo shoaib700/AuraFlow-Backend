@@ -1,6 +1,15 @@
-import express from "express";
-import cors from "cors";
-import connectDB from "./config/db.js";
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./config/db.js");
+
+// ROUTES
+const dealsRoutes = require("./routes/deals.js");
+const blogsRoutes = require("./routes/blogs.js");
+const settingsRoutes = require("./routes/settings.js");
+const statsRoutes = require("./routes/stats.js");
+const seoRoutes = require("./routes/seo.js");
+const autopilotRoutes = require("./routes/autopilot.js");
+const adminRoutes = require("./routes/admin.js");
 
 const app = express();
 app.use(cors());
@@ -9,25 +18,18 @@ app.use(express.json());
 connectDB();
 
 // ROUTES
-import dealsRoutes from "./routes/deals.js";
-import blogsRoutes from "./routes/blogs.js";
-import settingsRoutes from "./routes/settings.js";
-import statsRoutes from "./routes/stats.js";
-import seoRoutes from "./routes/seo.js";
-import autopilotRoutes from "./routes/autopilot.js";
-import adminRoutes from "./routes/admin.js";
-
 app.use("/api/deals", dealsRoutes);
 app.use("/api/blogs", blogsRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/stats", statsRoutes);
-app.use("/api/seo", seoRoutes);           // <-- FIXED
+app.use("/api/seo", seoRoutes);
 app.use("/api/autopilot", autopilotRoutes);
-app.use("/api/admin", adminRoutes);       // <-- FIXED
+app.use("/api/admin", adminRoutes);
 
+// Default home
 app.get("/", (req, res) => {
-    res.send("AuraFlow Backend Running ✔");
+    res.send("AuraFlow Backend Running ✓");
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server running on port ${port}`));
