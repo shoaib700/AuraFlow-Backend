@@ -1,9 +1,6 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-import { connectDB } from "./config/db.js";
-
-dotenv.config();
+import connectDB from "./config/db.js";
 
 const app = express();
 app.use(cors());
@@ -24,10 +21,13 @@ app.use("/api/deals", dealsRoutes);
 app.use("/api/blogs", blogsRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/stats", statsRoutes);
-app.use("/api/seo", seoRoutes);
+app.use("/api/seo", seoRoutes);           // <-- FIXED
 app.use("/api/autopilot", autopilotRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/admin", adminRoutes);       // <-- FIXED
 
-const port = process.env.PORT || 5000;
+app.get("/", (req, res) => {
+    res.send("AuraFlow Backend Running ✔");
+});
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

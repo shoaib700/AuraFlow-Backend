@@ -1,8 +1,14 @@
-import express from "express";
-import { adminVerify } from "../controllers/adminController.js";
-
+const express = require("express");
 const router = express.Router();
 
-router.post("/verify", adminVerify);
+router.post("/verify", (req, res) => {
+  const { user, pass } = req.body;
 
-export default router;
+  if (user === process.env.ADMIN_USER && pass === process.env.ADMIN_PASS) {
+    return res.json({ success: true, token: process.env.ADMIN_LOGIN_TOKEN });
+  }
+
+  res.status(401).json({ success: false, message: "Invalid credentials" });
+});
+
+module.exports = router;
